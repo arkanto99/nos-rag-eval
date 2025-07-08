@@ -1,13 +1,18 @@
-import transformers
 from transformers import AutoModelForCausalLM, AutoTokenizer, BitsAndBytesConfig
 import torch
+import random
 import os
+import sys
 from dotenv import load_dotenv
 import json
-from dataloader_evaluation import load_qa_pairs
+# Add parent directory to Python path to find utils module
+current_dir = os.path.dirname(os.path.abspath(__file__))  # llm-as-judge
+parent_dir = os.path.dirname(current_dir)  # nos-rag-eval
+sys.path.append(parent_dir)
+
+from utils.dataloader_evaluation import load_qa_pairs
+
 from prompts import (
-    HALLUCINATION_PROMPT,
-    COMPLETENESS_PROMPT,
     CONTEXT_RECALL_PROMPT,
     CONTEXT_PRECISION_PROMPT
 )
@@ -175,11 +180,11 @@ def compute_context_precision(contexts, question, ground_truth, model, tokenizer
         all_sentences.extend(split_sentences(ctx))
     if not all_sentences:
         return 0.0
-
     relevant_count = 0
     for sent in all_sentences:
         prompt = build_context_precision_prompt(sent, question, ground_truth)
         result = evaluate(prompt, model, tokenizer, device=device)
+        #print(f"Evaluating context sentence: {sent}\nResult: {result}\n")
         if "yes" in result.lower():
             relevant_count += 1
 
@@ -190,39 +195,28 @@ if __name__ == "__main__":
     print(f"Using device: {device}")
     selene_model, selene_tokenizer = load_selene()
 
-    for i, example in enumerate(evaluation_data[205:208]):
-        print(f"--------------Evaluating example {i}-----------------\n")
+    # Select 5 random examples
+    sample_size = 5
+    random_examples = random.sample(evaluation_data, sample_size)
+    for example in random_examples:
         user_input = example['user_input']
         assistant_response = example['response']
         reference_response = example['reference']
         retrieved_contexts = example['retrieved_contexts']
-        print(f"User Input: {user_input}\n")
-        print(f"Assistant Response: {assistant_response}\n")
+        print(f"--------------Evaluating question: {user_input}-----------------\n")
+        #print(f"Assistant Response: {assistant_response}\n")
         print(f"Reference Response: {reference_response}\n")
 
-        # # Build prompts
-        # hallucination_prompt = build_hallucination_prompt(user_input, assistant_response)
-        # completeness_prompt = build_completeness_prompt(user_input, assistant_response, reference_response)
-
-        # # Evaluate hallucination
-        # hallucination_result = evaluate(hallucination_prompt, selene_model, selene_tokenizer, device=device)
-        # critique, score = parse_atla_response(hallucination_result)
-        # print(f"Hallucination Score: {score}\nCritique: {critique}\n")
-
-        # # Evaluate completeness
-        # completeness_result = evaluate(completeness_prompt, selene_model, selene_tokenizer, device=device)
-        # critique, score = parse_atla_response(completeness_result)
-        # print(f"Completeness Score: {score}\nCritique: {critique}\n")
 
         # Evaluate context recall and precision
-        recall = compute_context_recall(retrieved_contexts, reference_response, selene_model, selene_tokenizer, device)
-        separated_recall = compute_context_recall_per_context(retrieved_contexts, reference_response, selene_model, selene_tokenizer, device)
+        # recall = compute_context_recall(retrieved_contexts, reference_response, selene_model, selene_tokenizer, device)
+        # separated_recall = compute_context_recall_per_context(retrieved_contexts, reference_response, selene_model, selene_tokenizer, device)
         precision = compute_context_precision(retrieved_contexts, user_input, reference_response, selene_model, selene_tokenizer, device)
-        i=0
-        for _, score in separated_recall.items():
-            print(f"Context {i}, Recall Score: {score:.2f}\n")
-            i+=1
-        print(f"Total Context Recall: {recall:.2f}")
+        # i=0
+        # for _, score in separated_recall.items():
+        #     print(f"Context {i}, Recall Score: {score:.2f}\n")
+        #     i+=1
+        # print(f"Total Context Recall: {recall:.2f}")
 
         print(f"Context Precision: {precision:.2f}\n")
 

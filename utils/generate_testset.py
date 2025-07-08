@@ -4,11 +4,19 @@ import sys
 import os
 import json
 from tqdm import tqdm
-# Add parent directory to Python path
-sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 
+# Get the current directory and set up paths
+current_dir = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))  # nos-rag-eval
+parent_dir = os.path.dirname(current_dir)  # pabloF
+rag_dir = os.path.join(parent_dir, 'rag')  # rag directory
+
+# Add only rag path since that's where our module is
+sys.path.append(rag_dir)
+
+# Import directly from rag_ragas
+from rag_ragas import RAG
 from dataloader_evaluation import load_qa_pairs
-from rag.rag_ragas import RAG
+
 
 rag = RAG()
 dataset = []
@@ -24,7 +32,7 @@ for query,reference in tqdm(zip(sample_queries, expected_responses),
 
     _, relevant_docs = rag.retriever.invoke(query)
     response = rag.generate_answer(query, relevant_docs)
-
+    print(relevant_docs)
     dataset.append(
         {
             "user_input":query,
