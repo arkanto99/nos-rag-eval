@@ -1,3 +1,5 @@
+from typing import List
+
 def compute_mrr(expected_ids, retrieved_ids):
     """mrr metric.
     Args:
