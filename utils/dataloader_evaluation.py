@@ -35,20 +35,21 @@ def load_qa_with_metadata(file_path: str):
     with open(file_path, 'r', encoding='utf-8') as f:
         data = json.load(f)
         for item in data:
-            if 'id' in item and 'question' in item and 'answer' in item:
-                # Handle list of answers
-                if isinstance(item['answer'], list):
-                    for i,ans in enumerate(item['answer']):
-                        qa_dict.append({
+            if isinstance(item['answer'], list):
+                for i,ans in enumerate(item['answer']):
+                    qa_dict.append({
                             "id": f"{item['id']}_{i}",
                             "question": item['question'],
-                            "answer": ans
-                        })
-                # Handle single answer
-                else:
-                    qa_dict.append({
+                            "answer": ans,
+                            "source_id": item['source_id'],
+                            "context": item['context']
+                    })
+            else:
+                qa_dict.append({
                         "id": f"{item['id']}_0",
                         "question": item['question'],
-                        "answer": item['answer']
-                    })      
+                        "answer": item['answer'],
+                        "source_id": item['source_id'],
+                        "context": item['context']
+                })      
     return qa_dict
