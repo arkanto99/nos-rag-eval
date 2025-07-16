@@ -4,7 +4,7 @@ general_config:
 database: 
   chunk_size: 2000
   chunk_overlap: 200
-  elastic_config_file: /home/compartido/pabloF/rag/configs/config_elastic_qwen_evaluation.yaml
+  elastic_config_file: /home/compartido/pabloF/nos-rag-eval/rag_retriever/configs/config_elastic_praza_qwen.yaml
 
 retriever:
   embedding_model: BAAI/bge-m3  # Embedding model to use

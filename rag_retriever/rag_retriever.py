@@ -134,12 +134,12 @@ if __name__ == "__main__":
         if print_sources:
             print("\n--- Fragmentos empregados ---")
             for source in sources:
-                print(source)
+                #print(source)
                 source_id = source["id"]
                 content = source["content"]
                 metadata = source["metadata"]["_source"]
                 # If you have source info in metadata, you can display it
-                source_file = metadata.get("source_id", "Descoñecido")
+                source_file = metadata.get("source_id",f"Praza-{metadata.get('published_on')}")
                 
                 print(f"\nFragmento {source_id} - {source_file}")
                 print("-" * 40)

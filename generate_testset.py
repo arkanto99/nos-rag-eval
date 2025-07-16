@@ -25,7 +25,6 @@ else:
 
 try:
     for item in tqdm(dataset, desc="Generating dataset"):
-        print(item)
         idx = item['id']
         if idx in processed_ids:
             continue    
@@ -41,8 +40,8 @@ try:
                     "score": doc["score"],
                     "context_metadata": {
                         "id": metadata["id"],
-                        "source_id": metadata["source_id"],
-                        "title": metadata["title"],
+                        "source_id": metadata.get("source_id",f"Praza-{metadata.get('published_on')}"),
+                        "title": metadata.get("title", metadata.get("headline")),
                     }
                 })
             # Create new result
