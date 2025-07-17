@@ -187,6 +187,25 @@
     ]
   },
   {
+    "id": 10,
+    "source_id": "codigo_cero03",
+    "question": "Cal é o obxectivo do ciclo Luis Asorey na súa 32ª edición?",
+    "answer": [
+      "O obxectivo do ciclo é trasladar información actualizada sobre estratexias de dixitalización do sector agrario, plans de transformación tecnolóxica nos subsectores agrícola, gandeiro e forestal, e casos prácticos de éxito en Galicia.",
+      "O ciclo busca informar sobre a dixitalización do sector agrario, incluíndo o uso de drons, robots e tecnoloxías para explotacións intelixentes e pobos conectados no rural galego.",
+      "O fin do evento é proporcionar coñecementos actualizados sobre a transformación tecnolóxica do sector agrario, destacando fórmulas como graxas intelixentes e a descarbonización da xestión forestal."
+    ],
+    "context": "A RAGC e a Deputación de Lugo abordan as diferentes estratexias actuais para dixitalizar o noso agro", "text": "A Real Academia Galega de Ciencias (RAGC) e a Deputación de Lugo, coa colaboración do Campus Terra da Universidade de Santiago (USC), celebrarán a partir da vindeira semana a 32 edición do ciclo Luis Asorey, centrado nesta edición de 2021 na temática da Dixitalización do sector agrario en Galicia. Haberá conferencias nas que se irán abordando as estratexias TIC autonómicas, nacionais e europea, amais das referentes á transformación tecnolóxica dos sectores agrícola, gandeiro e forestal, e do rural en xeral. Porase o foco, máis polo miúdo, en fórmulas como as graxas intelixentes (smart farmings) ou as aldeas conectadas. Tamén se exporán casos de éxito en relación coa dixitalización do sector.\nPara este ciclo, coordinado polo doutor enxeñeiro de Montes, catedrático da USC, novo presidente da Asociación Forestal de Galicia (AFG) e membro numerario da RAGC, Antonio Rigueiro, a inscrición é gratuíta e desenvolverase do 15 ao 24 de novembro en formato mixto: presencial, no salón de actos da Deputación de Lugo (rúa San Marcos, 8), e telematicamente a través da canle de Youtube da RAGC, en horario de 19:00 a 21:00 horas.\nRigueiro explica que o obxectivo do ciclo é \"trasladar aos asistentes información actualizada sobre as diferentes estratexias de dixitalización do sector agrario, os plans de transformación nos subsectores agrícola, gandeiro e forestal, o uso de drons e robots na xestión agrícola, gandeira e forestal en Galicia, os plans de explotacións intelixentes e sobre pobos intelixentes no rural galego, así como algúns casos prácticos de éxito de dixitalización no sector agroforestal en Galicia\"",
+    "category": "economia",
+    "context_replaced": true,
+    "context_score": 0.88,
+    "context_paragraph_indices": [
+      1,
+      2,
+      3
+    ]
+  },
+  {
     "id": 11,
     "source_id": "codigo_cero03",
     "question": "Quen é o coordinador do ciclo Luis Asorey e cales son as súas vinculacións institucionais?",
@@ -238,6 +257,43 @@
       0,
       1,
       2
+    ]
+  },
+  {
+    "id": 18,
+    "source_id": "codigo_cero04",
+    "question": "Resumo da situación sobre o proxecto de desinfección con drons liderado pola Universidade de Vigo.",
+    "answer": [
+      "A Universidade de Vigo lidera un proxecto para desinfectar zonas de risco por COVID-19 mediante drons, financiado con 55.000 euros pola Axencia Galega de Innovación, co apoio da Consellería de Economía.",
+      "O proxecto, parte dunha iniciativa de oito seleccionadas entre 160 candidaturas, busca integrar datos xeográficos e tecnoloxía de drons para desinfectar espazos públicos",
+      "A iniciativa da UVigo, con financiamento público, desenrolase en tres fases e busca establecer unha metodoloxía operativa para a desinfección de zonas con alto risco de contaxio mediante drons"
+    ],
+    "context": "O proxecto liderado por investigadores da Universidade de Vigo para desinfectar áreas de risco por COVID-19 co emprego de drons e dispersión de líquidos está xa pronto para arrincar. Segundo informou a UVigo, este 14 de maio os responsábeis da iniciativa mantiveron unha xuntanza telemática con Francisco Conde, conselleiro de Economía, e os impulsores dos outros sete proxectos innovadores apoiados pola Axencia Galega de Innovación para plantar cara á COVID-19 (seis deles promovidos por empresas galegas e dous máis deseñados pola UVigo e a USC). A proposta da UVigo porá o foco en desenvolver un sistema de información xeográfica a nivel galego e unha metodoloxía que permita optimizar o uso de drons anti-COVID nesta crise.\nA iniciativa da Universidade de Vigo, financiada con 55.000 euros pola Axencia Galega de Innovación da Xunta de Galicia, é como dixemos unha das oito solucións elixidas, entre as 160 recibidas, na convocatoria feita pola Consellaría de Economía, Emprego para o desenvolvemento de proxectos innovadores fronte á pandemia.",
+    "category": "economia",
+    "context_replaced": true,
+    "context_score": 0.6604,
+    "context_paragraph_indices": [
+      0,
+      1
+    ]
+  },
+  {
+    "id": 19,
+    "source_id": "codigo_cero05",
+    "question": "Cal é o obxectivo do Curso Superior de Administración Electrónica organizado polo CPEIG e a AMTEGA?",
+    "answer": [
+      "O curso ten como obxectivo profundar na concepción técnico-xurídica da Administración Electrónica, abordando as súas posibilidades e desafíos nas institucións públicas e de cara á cidadanía, co fin de proporcionar coñecementos teóricos e prácticos sobre goberno dixital.",
+      "O propósito do curso é ofrecer formación sobre a implantación de Administración Electrónica nas institucións galegas, integrando perspectivas técnicas e lexislativas para mellorar a capacidade dos participantes no dereito da informática.",
+      "A iniciativa busca dotar aos participantes de competencias sobre goberno dixital, coa finalidade de que adquiran coñecementos prácticos e teóricos para optimizar a relación entre tecnoloxía e administración pública."
+    ],
+    "context": "O Colexio Profesional de Enxeñaría en Informática de Galicia (CPEIG) e a Axencia para a Modernización Tecnolóxica de Galicia (AMTEGA) abren mañá, a partir das 11.00 horas, o Curso Superior de Administración Electrónica, unha acción formativa que mergulla aos participantes na actualidade da dixitalización das institucións públicas, abordando as súas posibilidades (de cara ás propias administracións pero tamén de cara a cidadanía) e os seus grandes desafíos. O acto, aberto ao público en xeral, será no salón de actos da Escola Galega de Administración Pública (EGAP) de Santiago de Compostela.\nA inauguración correrá a cargo da directora de AMTEGA, Mar Pereira, a directora da EGAP, Sonia Rodríguez, e o presidente do CPEIG, Fernando Suárez. Logo, celebrarase un relatorio maxistral, titulado Presente e futuro da Administración Electrónica, que será impartido polo vogal asesor do Departamento de Xestión Tributaria da Axencia Estatal de Administración Tributaria (AEAT), Domingo Molina, e o socio de Consultoría de Sector Público EY, Carlos González.\nEste curso pretende afondar (desde unha perspectiva técnico-xurídica) na concepción da Administración Electrónica, incidindo \"na importancia que ten a súa implantación nas distintas institucións públicas da nosa Comunidade\". Os contidos do programa achegarán distintas perspectivas sobre o fenómeno do goberno dixital, co fin de que os participantes \"adquiran ou perfeccionen os coñecementos teóricos e prácticos da informática e do dereito, completando a súa formación no dereito da informática\".",
+    "category": "economia",
+    "context_replaced": true,
+    "context_score": 0.8145,
+    "context_paragraph_indices": [
+      1,
+      2,
+      3
     ]
   },
   {
@@ -308,6 +364,24 @@
     "category": "politica",
     "context_replaced": true,
     "context_score": 0.6803,
+    "context_paragraph_indices": [
+      0,
+      1
+    ]
+  },
+  {
+    "id": 26,
+    "source_id": "codigo_cero07",
+    "question": "Cal é a postura actual de Bill Gates respecto á tecnoloxía DRM segundo o artigo?",
+    "answer": [
+      "Bill Gates considera que a tecnoloxía DRM é moi problemática, xa que as únicas vítimas son os compradores lexítimos que poden perder os contidos mercados ao cambiar de reprodutor ou ordenador, e Microsoft está a traballar en sistemas máis flexibles.",
+      "A postura de Gates é crítica co DRM, pois afecta aos usuarios lexítimos e impide a adaptación ás súas necesidades, polo que Microsoft busca alternativas máis axustables.",
+      "Gates cualifica o DRM como inviable e perxudicial para os usuarios, destacando que Microsoft está a desenvolver sistemas que permitan maior liberdade ao consumidor."
+    ],
+    "context": "Gates considerou que os sistemas de DRM son moi problemáticos e as únicas vítimas parecen ser os compradores lexítimos, que queren mercar os contidos audiovisuais de por vida, e poden perder as pezas mercadas simplemente por cambiar de reprodutor multimedia ou de ordenador, polo que dende Microsoft admiten que están a traballar en desenvolver sistemas máis flexibles que poidan axustarse ás demandas do usuario.",
+    "category": "tecnoloxía",
+    "context_replaced": true,
+    "context_score": 0.7467,
     "context_paragraph_indices": [
       0,
       1
@@ -1849,6 +1923,25 @@
     ]
   },
   {
+    "id": 118,
+    "source_id": "galicia_e09",
+    "question": "Cal é a comunidade autónoma que percibe a maior asignación do Fondo de Suficiencia en 2010?",
+    "answer": [
+      "Andalucía recibe a maior parte do Fondo de Suficiencia, seguida de Galicia como segunda beneficiaria.",
+      "A comunidade autónoma con maior asignación do Fondo de Suficiencia é Andalucía, coa segunda posición para Galicia.",
+      "O Fondo de Suficiencia destina a maioría dos seus recursos a Andalucía, con Galicia en segundo lugar."
+    ],
+    "context": "Galicia, dentro desta asiganción, percibirá do Fondo de Suficiencia 3.279,94 millóns, un 10, 96% do total, situándose como a segunda Comunidade Autónoma á que máis diñeiro se destina, por detrás de Andalucía, que leva 8.248,10 millóns, un 27, 55%.",
+    "category": "economia",
+    "context_replaced": true,
+    "context_score": 0.5309,
+    "context_paragraph_indices": [
+      0,
+      1,
+      2
+    ]
+  },
+  {
     "id": 119,
     "source_id": "galicia_e09",
     "question": "Como afecta o orzamento estatal de 2010 ás transferencias para as administracións territoriais?",
@@ -1864,6 +1957,24 @@
     "context_paragraph_indices": [
       5,
       6
+    ]
+  },
+  {
+    "id": 120,
+    "source_id": "galicia_e10",
+    "question": "Que decidiu a Audiencia Provincial sobre a orde de prisión do xinecólogo implicado no caso Carioca?",
+    "answer": [
+      "A Audiencia Provincial anulou a orde de prisión provisional con fianza de 30.000 euros imposta polo xulgado ao xinecólogo, dubidando da existencia de delito de indución ao aborto sen consentimento.",
+      "O tribunal da Audiencia Provincial rexeitou a prisión do médico e anulou a fianza de 30.000 euros, ao considerar que non hai probas claras de que o aborto se practicase contra a vontade da muller.",
+      "A Audiencia Provincial suspendeu a medida de prisión e eliminou a fianza, ao cuestionar se o xinecólogo actuou en contra da vontade da paciente segundo o Código Penal."
+    ],
+    "context": "A instrución do caso Carioca, que investiga a suposta relación dunha rede de prostitución en Lugo con axentes da autoridade, recibiu o mércores un novo pau en forma de auto da Audiencia Provincial. Ésta optou por anular a orde de prisión provisional con fianza de 30.000 euros que a xuíza Pilar de Lara había imposto ao xinecólogo implicado no caso, ao que acusa de dous delitos de indución ao aborto.\nA xuíza detivo nun primeiro momento, a finais do ano pasado, a este xinecólogo tras a declaración dunha das prostitutas que traballaban en Queens, que asegurou que fora obrigada a abortar. A instrutora enviou directamente a prisión ao médico, ao considerar que se trataba dun aborto non consentido. Con todo, a avogada do acusado, Iliana do Cal, recorreu á Audiencia, que acordou a súa saída de Bonxe, onde permaneceu varias semanas.\nPouco despois, a principios de febreiro, o xinecólogo foi detido de novo, acusado por outra prostituta de haberlle practicado un aborto. Nesta ocasión, e tras unha confusa situación na que o médico tivo que ser trasladado a Urxencias ante o risco dun infarto en plena declaración, a xuíza ditou de nova orde de prisión, aínda que en atención á decisión anterior da Audiencia Provincial decidiu porlle unha fianza de 30.000 euros para que puidese eludir o seu ingreso en Bonxe.\nA avogada recorreu tamén esta fianza, recurso que a Audiencia aceptou nun auto no que incluso deixa entrever que dubida de que o xinecólogo cometa o delito que a maxistrada lle imputa.\nDubidosoSegundo o devandito auto, \"a declaración da moza pon de manifesto algunhas dúbidas de como chegou a tomar a decisión de consentir o seu aborto\", é dicir, \"a incidencia que sobre a súa opción de abortar puidesen ter\" algúns dos acusados neste caso. \"Pero o que desde logo resulta sumamente dubidoso\", engaden os xuíces da Audiencia, \"de realizarse unha lectura sosegada e desapasionada do testemuño da moza, é que a acción do xinecólogo poida ser comprendida nalgún dos supostos do art.144 do Código Penal, isto é que o aborto fose practicado polo facultativo en contra da vontade da muller\".",
+    "context_replaced": true,
+    "context_score": 0.7917,
+    "context_paragraph_indices": [
+      1,
+      2,
+      3
     ]
   },
   {
