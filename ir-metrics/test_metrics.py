@@ -39,7 +39,7 @@ def evaluate_retrieval(eval_dataset):
 
 # Load the data
 print("Loading datasets...")
-with open('/home/compartido/pabloF/nos-rag-eval/datasets/evaluation_dataset_with_metadata.json') as f:
+with open('/home/compartido/pabloF/nos-rag-eval/datasets/retrieved_dataset_with_metadata.json') as f:
     eval_dataset = json.load(f)
     
 # Run evaluation

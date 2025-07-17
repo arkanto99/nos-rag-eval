@@ -9,11 +9,11 @@ from rag_retriever.rag_retriever import RAG
 from utils.dataloader_evaluation import load_qa_with_metadata
 
 dataset = []
-dataset = load_qa_with_metadata(file_path="/home/compartido/pabloF/nos-rag-eval/datasets/qwen_samples_context_fixed.json")
+dataset = load_qa_with_metadata(file_path="/home/compartido/pabloF/nos-rag-eval/datasets/qwen_samples_context_fixed_HumanRevised.json")
 rag = RAG()
 
 # Initialize or load existing results
-output_file = 'evaluation_dataset_with_metadata.json'
+output_file = 'retrieved_dataset_with_metadata.json'
 if os.path.exists(output_file):
     with open(output_file, 'r', encoding='utf-8') as f:
         results = json.load(f)

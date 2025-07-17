@@ -195,7 +195,7 @@
       "O ciclo busca informar sobre a dixitalización do sector agrario, incluíndo o uso de drons, robots e tecnoloxías para explotacións intelixentes e pobos conectados no rural galego.",
       "O fin do evento é proporcionar coñecementos actualizados sobre a transformación tecnolóxica do sector agrario, destacando fórmulas como graxas intelixentes e a descarbonización da xestión forestal."
     ],
-    "context": "A RAGC e a Deputación de Lugo abordan as diferentes estratexias actuais para dixitalizar o noso agro", "text": "A Real Academia Galega de Ciencias (RAGC) e a Deputación de Lugo, coa colaboración do Campus Terra da Universidade de Santiago (USC), celebrarán a partir da vindeira semana a 32 edición do ciclo Luis Asorey, centrado nesta edición de 2021 na temática da Dixitalización do sector agrario en Galicia. Haberá conferencias nas que se irán abordando as estratexias TIC autonómicas, nacionais e europea, amais das referentes á transformación tecnolóxica dos sectores agrícola, gandeiro e forestal, e do rural en xeral. Porase o foco, máis polo miúdo, en fórmulas como as graxas intelixentes (smart farmings) ou as aldeas conectadas. Tamén se exporán casos de éxito en relación coa dixitalización do sector.\nPara este ciclo, coordinado polo doutor enxeñeiro de Montes, catedrático da USC, novo presidente da Asociación Forestal de Galicia (AFG) e membro numerario da RAGC, Antonio Rigueiro, a inscrición é gratuíta e desenvolverase do 15 ao 24 de novembro en formato mixto: presencial, no salón de actos da Deputación de Lugo (rúa San Marcos, 8), e telematicamente a través da canle de Youtube da RAGC, en horario de 19:00 a 21:00 horas.\nRigueiro explica que o obxectivo do ciclo é \"trasladar aos asistentes información actualizada sobre as diferentes estratexias de dixitalización do sector agrario, os plans de transformación nos subsectores agrícola, gandeiro e forestal, o uso de drons e robots na xestión agrícola, gandeira e forestal en Galicia, os plans de explotacións intelixentes e sobre pobos intelixentes no rural galego, así como algúns casos prácticos de éxito de dixitalización no sector agroforestal en Galicia\"",
+    "context": "A Real Academia Galega de Ciencias (RAGC) e a Deputación de Lugo, coa colaboración do Campus Terra da Universidade de Santiago (USC), celebrarán a partir da vindeira semana a 32 edición do ciclo Luis Asorey, centrado nesta edición de 2021 na temática da Dixitalización do sector agrario en Galicia. Haberá conferencias nas que se irán abordando as estratexias TIC autonómicas, nacionais e europea, amais das referentes á transformación tecnolóxica dos sectores agrícola, gandeiro e forestal, e do rural en xeral. Porase o foco, máis polo miúdo, en fórmulas como as graxas intelixentes (smart farmings) ou as aldeas conectadas. Tamén se exporán casos de éxito en relación coa dixitalización do sector.\nPara este ciclo, coordinado polo doutor enxeñeiro de Montes, catedrático da USC, novo presidente da Asociación Forestal de Galicia (AFG) e membro numerario da RAGC, Antonio Rigueiro, a inscrición é gratuíta e desenvolverase do 15 ao 24 de novembro en formato mixto: presencial, no salón de actos da Deputación de Lugo (rúa San Marcos, 8), e telematicamente a través da canle de Youtube da RAGC, en horario de 19:00 a 21:00 horas.\nRigueiro explica que o obxectivo do ciclo é \"trasladar aos asistentes información actualizada sobre as diferentes estratexias de dixitalización do sector agrario, os plans de transformación nos subsectores agrícola, gandeiro e forestal, o uso de drons e robots na xestión agrícola, gandeira e forestal en Galicia, os plans de explotacións intelixentes e sobre pobos intelixentes no rural galego, así como algúns casos prácticos de éxito de dixitalización no sector agroforestal en Galicia\"",
     "category": "economia",
     "context_replaced": true,
     "context_score": 0.88,
@@ -1431,63 +1431,6 @@
     "context_paragraph_indices": [
       0,
       1
-    ]
-  },
-  {
-    "id": 91,
-    "source_id": "galicia_e03",
-    "question": "Que legal action occurred after 11 years for the hikers' death in the Mandeo River canyons?",
-    "answer": [
-      "A trial for serious negligence began after 11 years, charging the adventure sports guide and the hydroelectric company's legal representative. Families sought compensation of at least 300,000 euros from the companies and the sports center involved.",
-      "Eleven years after the 1999 incident, a judicial process started, accusing the guide and the hydroelectric company of gross negligence, with demands for financial compensation from the victims' families.",
-      "The trial, delayed for over a decade, charges the adventure guide and the hydroelectric company with serious negligence, while families claim indemnification for the deaths caused by the dam's sudden water release."
-    ],
-    "context": "No verán de 1999 a auga arrastrou a estes dous veciños de Lugo e aos seus trece acompañantes, despois de que o persoal da minicentral hidroeléctrica que explota a canle abrise as comportas da presa.\nOs avogados das familias dos falecidos acusan dunha falta de imprudencia grave ao monitor dunha empresa especializada en deportes de aventura, que dirixía ao grupo de excursionistas, e ao representante legal da eléctrica que explota a canle, Navarro Generación —antes Minicentral MN—. Solicitan para ambos unha multa, cuxa contía se determinará durante o xuízo.\nAdemais, como responsabilidade civil, os letrados reclámanlles a estas dúas empresas, xunto a Unión Fenosa, concesionaria que arrendou a explotación hidroeléctrica, e ao centro deportivo que organizou a excursión, que indemnicen conxuntamente ás familias con polo menos 300.000 euros, máis intereses de demora. Importe, tamén por concretar, que terían que asumir as compañías aseguradoras das demandadas, de ser condenadas.",
-    "category": "politica",
-    "context_replaced": true,
-    "context_score": 0.1589,
-    "context_paragraph_indices": [
-      1,
-      2,
-      3
-    ]
-  },
-  {
-    "id": 92,
-    "source_id": "galicia_e03",
-    "question": "Why did the trial for the Mandeo River incident take 11 years to begin?",
-    "answer": [
-      "The delays were attributed to legal appeals by the defendants, who sought to dismiss the case, and to the judicial system's slowness, as the lawyers criticized the prolonged procedural dilations.",
-      "The trial's 11-year delay resulted from the defendants' strategic use of appeals to archive the case and the court's inefficiency in processing the legal proceedings.",
-      "The families and their lawyers blamed the extended wait on the defendants' deliberate filing of appeals and the court's failure to expedite the judicial process."
-    ],
-    "context": "Ademais, como responsabilidade civil, os letrados reclámanlles a estas dúas empresas, xunto a Unión Fenosa, concesionaria que arrendou a explotación hidroeléctrica, e ao centro deportivo que organizou a excursión, que indemnicen conxuntamente ás familias con polo menos 300.000 euros, máis intereses de demora. Importe, tamén por concretar, que terían que asumir as compañías aseguradoras das demandadas, de ser condenadas.\nA celebración deste xuízo suspendeuse en catro ocasións. As defensas dos acusados presentaron tres recursos de apelación ante a Audiencia Provincial da Coruña, coa pretensión de que se arquivase o caso, e unha recusación da xuíza que o instruíu.\nMiguel López, que é o avogado dos pais dun dos falecidos, Juan Carlos González Pena, cualificou como \"desproporcionada\" esta demora, que atribuíu a que \"as partes implicadas atrasárono a conciencia con recursos\" e \"non por unha dilación indebida do xulgado\".",
-    "category": "politica",
-    "context_replaced": true,
-    "context_score": 0.163,
-    "context_paragraph_indices": [
-      3,
-      4,
-      5
-    ]
-  },
-  {
-    "id": 93,
-    "source_id": "galicia_e03",
-    "question": "Who is accused of serious negligence in the Mandeo River incident?",
-    "answer": [
-      "The adventure sports guide who led the group and the legal representative of the hydroelectric company operating the dam are accused of serious negligence for failing to warn of water releases.",
-      "Charged with gross negligence are the guide responsible for the hikers and the representative of the hydroelectric company, Navarro Generación, for failing to ensure safety protocols.",
-      "The trial accuses the tour guide and the hydroelectric company's legal representative of endangering lives through negligence, as they failed to alert the group of the dam's water release."
-    ],
-    "context": "No verán de 1999 a auga arrastrou a estes dous veciños de Lugo e aos seus trece acompañantes, despois de que o persoal da minicentral hidroeléctrica que explota a canle abrise as comportas da presa.\nOs avogados das familias dos falecidos acusan dunha falta de imprudencia grave ao monitor dunha empresa especializada en deportes de aventura, que dirixía ao grupo de excursionistas, e ao representante legal da eléctrica que explota a canle, Navarro Generación —antes Minicentral MN—. Solicitan para ambos unha multa, cuxa contía se determinará durante o xuízo.\nAdemais, como responsabilidade civil, os letrados reclámanlles a estas dúas empresas, xunto a Unión Fenosa, concesionaria que arrendou a explotación hidroeléctrica, e ao centro deportivo que organizou a excursión, que indemnicen conxuntamente ás familias con polo menos 300.000 euros, máis intereses de demora. Importe, tamén por concretar, que terían que asumir as compañías aseguradoras das demandadas, de ser condenadas.",
-    "category": "politica",
-    "context_replaced": true,
-    "context_score": 0.2495,
-    "context_paragraph_indices": [
-      1,
-      2,
-      3
     ]
   },
   {
