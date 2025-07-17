@@ -1,5 +1,6 @@
 from traditional_metrics import compute_precision, compute_recall, compute_mrr
 import json
+import argparse
 
 def evaluate_retrieval(eval_dataset):
     results = {
@@ -37,9 +38,12 @@ def evaluate_retrieval(eval_dataset):
     }
     return avg_results
 
+parser = argparse.ArgumentParser(description="Evaluate with traditional metrics Retrieval Results")
+parser.add_argument('--results', type=str, default=None, help='Path to results')
+args = parser.parse_args()
 # Load the data
 print("Loading datasets...")
-with open('/home/compartido/pabloF/nos-rag-eval/datasets/retrieved_dataset_with_metadata.json') as f:
+with open(args.results) as f:
     eval_dataset = json.load(f)
     
 # Run evaluation

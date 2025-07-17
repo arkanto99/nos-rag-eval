@@ -1,5 +1,5 @@
 # Code from https://discuss.huggingface.co/t/use-ragas-with-huggingface-llm/75769
-
+import argparse
 import sys
 import os
 import json
@@ -8,12 +8,25 @@ from tqdm import tqdm
 from rag_retriever.rag_retriever import RAG
 from utils.dataloader_evaluation import load_qa_with_metadata
 
+parser = argparse.ArgumentParser(description="Generate test set with RAG retriever.")
+parser.add_argument('--config', type=str, default=None, help='Path to RAG config file (optional)')
+args = parser.parse_args()
+
 dataset = []
 dataset = load_qa_with_metadata(file_path="/home/compartido/pabloF/nos-rag-eval/datasets/qwen_samples_context_fixed_HumanRevised.json")
-rag = RAG()
+
+# Pass config file if provided
+if args.config:
+    print(f"Using config file saved in {args.config}...")
+    rag = RAG(config_file=args.config)
+    config_base = os.path.splitext(os.path.basename(args.config))[0]
+    output_file = f'retrieved_dataset_{config_base}.json'
+else:
+    print(f"Using default config file...")
+    rag = RAG(config_file="./rag_retriever/configs/config.yaml")
+    output_file = 'retrieved_dataset_with_metadata.json'
 
 # Initialize or load existing results
-output_file = 'retrieved_dataset_with_metadata.json'
 if os.path.exists(output_file):
     with open(output_file, 'r', encoding='utf-8') as f:
         results = json.load(f)

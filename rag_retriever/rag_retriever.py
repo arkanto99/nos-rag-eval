@@ -17,8 +17,6 @@ from typing import List, Dict, Any, Tuple
 from enum import Enum
 import pprint
 
-config = ConfigLoader.load()
-elastic_config = ConfigLoader.load_elastic(config.database.elastic_config_file)
 
 class ElasticSearchStrategy(Enum):
     BM25 = ElasticsearchStore.BM25RetrievalStrategy()
@@ -27,18 +25,19 @@ class ElasticSearchStrategy(Enum):
     SPARSE = ElasticsearchStore.SparseVectorRetrievalStrategy()
 
 class RAG:
-    def __init__(self):
+    def __init__(self, config_file):
         """
         Initialize the Retriever and Reranker mode.
         """
         # Initialize retriever
         print("Initializing retriever...")
+        self.config = ConfigLoader.load(config_file)
+        self.elastic_config = ConfigLoader.load_elastic(self.config.database.elastic_config_file)
         self.retriever = self.__initialize_retriever()
-
         print("RAG system initialized successfully.")
     
     def __initialize_retriever(self):
-        strategy_name = config.retriever.retrieval_strategy
+        strategy_name = self.config.retriever.retrieval_strategy
         retrieval_strategy = ElasticSearchStrategy[strategy_name].value
 
         # vectorstore = ElasticsearchStore(
@@ -59,27 +58,27 @@ class RAG:
                 },
             }
         es_client = Elasticsearch(
-            hosts=[elastic_config.endpoint],
-            basic_auth=(elastic_config.username, elastic_config.password)
+            hosts=[self.elastic_config.endpoint],
+            basic_auth=(self.elastic_config.username, self.elastic_config.password)
         )
         vectorstore_retriever = ElasticsearchRetriever(
             es_client=es_client,
-            index_name=elastic_config.elastic_index,
+            index_name=self.elastic_config.elastic_index,
             content_field="text",
             body_func=bm25_query,
         )
         reranker = Reranker(
-            model_name=config.reranker.reranker_model,
-            hf_cache_dir=config.general_config.hf_cache_dir,
+            model_name=self.config.reranker.reranker_model,
+            hf_cache_dir=self.config.general_config.hf_cache_dir,
             use_fp16=True,  # Use half-precision for efficiency
             normalize=True  # Normalize scores to 0-1 range
-        ) if config.reranker.use_reranking else None
+        ) if self.config.reranker.use_reranking else None
 
         return Retriever(
             vectorstore=vectorstore_retriever,
-            top_k=config.retriever.query_top_k,
+            top_k=self.config.retriever.query_top_k,
             reranker=reranker,
-            initial_retrieve_count=config.retriever.initial_retrieve_count
+            initial_retrieve_count=self.config.retriever.initial_retrieve_count
         )
 
     def retrieve_contexts(self, user_query: str):        
@@ -115,10 +114,8 @@ class RAG:
 if __name__ == "__main__":
     # Print the configuration for debugging
     pp = pprint.PrettyPrinter(indent=4)
-    pp.pprint(config.__dict__)
-
-    rag = RAG()
-    
+    rag = RAG("configs/config.yaml")
+    pp.pprint(rag.config.__dict__)
     print("Asistente RAG en Galego (escriba 'sair' para rematar)")
     while True:
         user_input = input("\nUsuario: ")

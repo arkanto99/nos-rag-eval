@@ -1,4 +1,5 @@
 from dataclasses import dataclass
+from typing import Optional
 import yaml
 import os
 
@@ -22,7 +23,7 @@ class RetrieverConfig:
 @dataclass
 class RerankerConfig:
     use_reranking: bool
-    reranker_model: str
+    reranker_model: Optional[str] = None
 
 @dataclass
 class ElasticConfig:
@@ -42,11 +43,7 @@ class Config:
 
 class ConfigLoader:
     @staticmethod
-    def load() -> Config:
-        # Automatically determine the path to config.yaml in the same directory as this script
-        script_dir = os.path.dirname(__file__)
-        config_path = os.path.join(script_dir, "config.yaml")
-        
+    def load(config_path) -> Config:
         with open(config_path, 'r') as file:
             config_dict = yaml.safe_load(file)
         
@@ -57,11 +54,10 @@ class ConfigLoader:
             reranker=RerankerConfig(**config_dict['reranker'])
         )
     @staticmethod
-    def load_elastic(config_path = "config_elastic.yaml") -> Config:
-        script_dir = os.path.dirname(__file__)
-        config_path = os.path.join(script_dir, config_path)
+    def load_elastic(config_path) -> Config:
         with open(config_path, 'r') as file:
             config_dict = yaml.safe_load(file)
+
         return ElasticConfig(
             username=config_dict['username'],
             password=config_dict['password'],
