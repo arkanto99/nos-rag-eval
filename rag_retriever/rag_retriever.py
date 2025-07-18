@@ -1,19 +1,17 @@
 import os
 import sys
 from pathlib import Path
-
-# Add the rag directory to the Python path
 current_dir = os.path.dirname(os.path.abspath(__file__))
 sys.path.append(current_dir)
+
 from elasticsearch import Elasticsearch
+from sentence_transformers import SentenceTransformer
 import torch
 from configs.ConfigLoader import ConfigLoader
 from retriever.Reranker import Reranker
 from retriever.Retriever import Retriever
-from langchain_community.vectorstores import FAISS
-from langchain_huggingface import HuggingFaceEmbeddings
 from langchain_elasticsearch import ElasticsearchStore, ElasticsearchRetriever
-from typing import List, Dict, Any, Tuple
+from typing import Dict
 from enum import Enum
 import pprint
 
@@ -23,6 +21,7 @@ class ElasticSearchStrategy(Enum):
     APROX = ElasticsearchStore.ApproxRetrievalStrategy()
     EXACT = ElasticsearchStore.ExactRetrievalStrategy()
     SPARSE = ElasticsearchStore.SparseVectorRetrievalStrategy()
+    SIMILARITY = "SIMILARITY"
 
 class RAG:
     def __init__(self, config_file):
@@ -39,6 +38,10 @@ class RAG:
     def __initialize_retriever(self):
         strategy_name = self.config.retriever.retrieval_strategy
         retrieval_strategy = ElasticSearchStrategy[strategy_name].value
+        if self.config.retriever.embedding_model:
+            embedding_model = SentenceTransformer(self.config.retriever.embedding_model, 
+                                                  cache_folder=self.config.general_config.hf_cache_dir)
+            embedding_model.to('cuda' if torch.cuda.is_available() else 'cpu')
 
         # vectorstore = ElasticsearchStore(
         #         es_url=elastic_config.endpoint,
@@ -57,6 +60,14 @@ class RAG:
                     },
                 },
             }
+        def vector_query(search_query: str) -> Dict:
+            vector = embedding_model.encode(search_query)
+            return {
+                "knn": {
+                    "field": "text_embedding",
+                    "query_vector": vector,
+                }
+            }
         es_client = Elasticsearch(
             hosts=[self.elastic_config.endpoint],
             basic_auth=(self.elastic_config.username, self.elastic_config.password)
@@ -65,7 +76,7 @@ class RAG:
             es_client=es_client,
             index_name=self.elastic_config.elastic_index,
             content_field="text",
-            body_func=bm25_query,
+            body_func=bm25_query if strategy_name == "BM25" else vector_query,
         )
         reranker = Reranker(
             model_name=self.config.reranker.reranker_model,

@@ -15,10 +15,10 @@ class DatabaseConfig:
 
 @dataclass
 class RetrieverConfig:
-    embedding_model: str
     retrieval_strategy: str
     initial_retrieve_count: int
     query_top_k: int
+    embedding_model: Optional[str] = None
 
 @dataclass
 class RerankerConfig:
