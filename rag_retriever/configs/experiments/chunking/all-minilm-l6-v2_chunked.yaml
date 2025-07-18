@@ -1,0 +1,16 @@
+general_config:
+  hf_cache_dir: /home/compartido/pabloF/cache
+
+database: 
+  chunk_size: 2000
+  chunk_overlap: 200
+  elastic_config_file: /home/compartido/pabloF/nos-rag-eval/rag_retriever/configs/config_elastic_praza_qwen_all-minilm-l6-v2_chunked.yaml
+
+retriever:
+  embedding_model: sentence-transformers/all-MiniLM-L6-v2  # Embedding model to use
+  retrieval_strategy: SIMILARITY  # Retrieval strategy to use [BM25, SIMILARITY, DEFAULT]
+  initial_retrieve_count: 5 # Number of initial results to retrieve before re-ranking
+  query_top_k: 3  # Number of top results to return for a query 
+
+reranker:
+  use_reranking: false

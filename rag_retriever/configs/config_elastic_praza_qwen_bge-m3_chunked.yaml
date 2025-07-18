@@ -1,0 +1,5 @@
+username: elastic
+password: eZr4ltvT
+elastic_index: praza_qwen_bge-m3_chunked #contexts_qwen_eval
+elastic_url: http://localhost:5601 # Not work with https, only with http
+api_endpoint: http://localhost:9200
