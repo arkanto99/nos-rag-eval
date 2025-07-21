@@ -74,7 +74,7 @@ class RAG:
         )
         vectorstore_retriever = ElasticsearchRetriever(
             es_client=es_client,
-            index_name=self.elastic_config.elastic_index,
+            index_name=self.config.database.elastic_index,
             content_field="text",
             body_func=bm25_query if strategy_name == "BM25" else vector_query,
         )
@@ -125,7 +125,7 @@ class RAG:
 if __name__ == "__main__":
     # Print the configuration for debugging
     pp = pprint.PrettyPrinter(indent=4)
-    rag = RAG("configs/config.yaml")
+    rag = RAG("configs/config_default.yaml")
     pp.pprint(rag.config.__dict__)
     print("Asistente RAG en Galego (escriba 'sair' para rematar)")
     while True:

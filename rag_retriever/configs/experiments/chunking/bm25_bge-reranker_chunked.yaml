@@ -4,10 +4,10 @@ general_config:
 database: 
   chunk_size: 2000
   chunk_overlap: 200
-  elastic_config_file: /home/compartido/pabloF/nos-rag-eval/rag_retriever/configs/config_elastic_praza_qwen.yaml
+  elastic_index: praza_qwen_chunked
+  elastic_config_file: /home/compartido/pabloF/nos-rag-eval/rag_retriever/configs/config_elastic.yaml
 
 retriever:
-  embedding_model: BAAI/bge-m3  # Embedding model to use
   retrieval_strategy: BM25  # Retrieval strategy to use [BM25, SIMILARITY, DEFAULT]
   initial_retrieve_count: 5 # Number of initial results to retrieve before re-ranking
   query_top_k: 3  # Number of top results to return for a query 
@@ -15,8 +15,3 @@ retriever:
 reranker:
   use_reranking: true
   reranker_model: BAAI/bge-reranker-v2-m3
-  
-    
-
-
-  

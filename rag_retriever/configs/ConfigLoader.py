@@ -11,6 +11,7 @@ class GeneralConfig:
 class DatabaseConfig:
     chunk_size: int
     chunk_overlap: int
+    elastic_index: str
     elastic_config_file: str
 
 @dataclass
@@ -29,7 +30,6 @@ class RerankerConfig:
 class ElasticConfig:
     username: str
     password: str
-    elastic_index: str
     url: str
     endpoint: str
 
@@ -61,7 +61,6 @@ class ConfigLoader:
         return ElasticConfig(
             username=config_dict['username'],
             password=config_dict['password'],
-            elastic_index=config_dict['elastic_index'],
             url=config_dict['elastic_url'],
             endpoint=config_dict['api_endpoint']
         )
