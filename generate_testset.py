@@ -22,9 +22,7 @@ if args.config:
     config_base = os.path.splitext(os.path.basename(args.config))[0]
     output_file = f'retrieved_dataset_{config_base}.json'
 else:
-    print(f"Using default config file...")
-    rag = RAG(config_file="./rag_retriever/configs/config.yaml")
-    output_file = 'retrieved_dataset_with_metadata.json'
+    exit("Please provide a config file with --config argument.")
 
 # Initialize or load existing results
 if os.path.exists(output_file):
