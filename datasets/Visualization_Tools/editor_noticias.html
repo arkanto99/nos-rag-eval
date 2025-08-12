@@ -1,0 +1,125 @@
+
+<!DOCTYPE html>
+<html lang="gl">
+<head>
+<meta charset="UTF-8">
+<title>Editor de Noticias (saltos de liña)</title>
+<style>
+  body { font-family: sans-serif; margin: 20px; }
+  textarea { width: 100%; height: 400px; margin-bottom: 10px; resize: vertical; }
+  input { margin-bottom: 10px; }
+  .nav { margin: 10px 0; }
+</style>
+</head>
+<body>
+
+<h1>Editor de Noticias</h1>
+
+<label for="fileInputNews"><b>📰 Cargar dataset de noticias (JSONL)</b></label><br>
+<input type="file" id="fileInputNews"><br><br>
+
+<div id="searchBox" style="display:none;">
+  <input type="text" id="sourceIdSearch" placeholder="Buscar por source_id...">
+  <button id="searchBtn">Ir</button>
+  <span id="searchResult"></span>
+</div>
+
+<div id="editor" style="display:none;">
+  <p><b>Source ID:</b> <span id="sourceIdField"></span></p>
+  <p><b>Título:</b> <span id="titleField"></span></p>
+  <p><b>Texto:</b><br><textarea id="textField"></textarea></p>
+
+  <div class="nav">
+    <button id="prevBtn">Anterior</button>
+    <button id="nextBtn">Seguinte</button>
+    <button id="saveBtn">Gardar cambios</button>
+    <button id="downloadBtn">Descargar JSONL</button>
+  </div>
+</div>
+
+<script>
+let dataNews = [];
+let currentIndex = 0;
+
+document.getElementById('fileInputNews').addEventListener('change', function(e) {
+  const file = e.target.files[0];
+  if (!file) return;
+  const reader = new FileReader();
+  reader.onload = function(e) {
+    try {
+      dataNews = e.target.result.split('\n').map(line => {
+        try {
+          return JSON.parse(line);
+        } catch (err) {
+          return null;
+        }
+      }).filter(item => item);
+      if (dataNews.length > 0) {
+        currentIndex = 0;
+        document.getElementById('editor').style.display = 'block';
+        document.getElementById('searchBox').style.display = 'block';
+        showRecord();
+      }
+    } catch (err) {
+      alert("Erro ao ler o JSONL: " + err);
+    }
+  };
+  reader.readAsText(file);
+});
+
+function showRecord() {
+  const item = dataNews[currentIndex];
+  document.getElementById('sourceIdField').textContent = item.source_id;
+  document.getElementById('titleField').textContent = item.title;
+  document.getElementById('textField').value = item.text;
+}
+
+function saveCurrentRecord() {
+  const item = dataNews[currentIndex];
+  item.text = document.getElementById('textField').value;
+}
+
+document.getElementById('prevBtn').onclick = function() {
+  saveCurrentRecord();
+  if (currentIndex > 0) { currentIndex--; showRecord(); }
+};
+
+document.getElementById('nextBtn').onclick = function() {
+  saveCurrentRecord();
+  if (currentIndex < dataNews.length - 1) { currentIndex++; showRecord(); }
+};
+
+document.getElementById('saveBtn').onclick = function() {
+  saveCurrentRecord();
+  alert("Rexistro gardado na memoria!");
+};
+
+document.getElementById('downloadBtn').onclick = function() {
+  saveCurrentRecord();
+  const jsonlContent = dataNews.map(item => JSON.stringify(item)).join('\n');
+  const blob = new Blob([jsonlContent], {type: 'application/json'});
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement('a');
+  a.href = url;
+  a.download = 'noticias_editadas.jsonl';
+  a.click();
+  URL.revokeObjectURL(url);
+};
+
+document.getElementById('searchBtn').onclick = function() {
+  const searchValue = document.getElementById('sourceIdSearch').value.trim();
+  if (!searchValue) return;
+  const foundIndex = dataNews.findIndex(item => item.source_id === searchValue);
+  if (foundIndex >= 0) {
+    saveCurrentRecord();
+    currentIndex = foundIndex;
+    showRecord();
+    document.getElementById('searchResult').textContent = `Mostrando rexistro ${foundIndex+1} de ${dataNews.length}`;
+  } else {
+    document.getElementById('searchResult').textContent = "source_id non atopado";
+  }
+};
+</script>
+
+</body>
+</html>
