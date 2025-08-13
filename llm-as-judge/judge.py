@@ -1,22 +1,24 @@
-from transformers import AutoModelForCausalLM, AutoTokenizer, BitsAndBytesConfig
+from Selene import Selene
 import torch
 import random
 import os
 import sys
 from dotenv import load_dotenv
 import json
+import argparse
+import re
+
 # Add parent directory to Python path to find utils module
 current_dir = os.path.dirname(os.path.abspath(__file__))  # llm-as-judge
 parent_dir = os.path.dirname(current_dir)  # nos-rag-eval
 sys.path.append(parent_dir)
 
-from utils.dataloader_evaluation import load_qa_pairs
-
+from utils.dataloader_evaluation import load_questions_with_metadata
 from prompts import (
     CONTEXT_RECALL_PROMPT,
     CONTEXT_PRECISION_PROMPT
 )
-import re
+
 
 env_path = os.path.join("/home/pablo.fernandez.rodriguez/configs/ragas.env")
 load_dotenv(env_path)
@@ -30,15 +32,14 @@ def get_env_variable(var_name):
 
 cache_dir = get_env_variable('CACHE_DIR')
 
-with open('/home/compartido/pabloF/llm-as-judge/evaluation_dataset_fixed.json', 'r', encoding='utf-8') as f:
-    evaluation_data = json.load(f)
-
 def split_sentences(text): #Naive approach to split sentences
     sentences = re.split(r'(?<=[.!?])\s+', text.strip())
     return [s for s in sentences if len(s) > 3]
 
 def build_context_recall_prompt(sentence, context):
-    return CONTEXT_RECALL_PROMPT.format(sentence=sentence, context=context)
+    return CONTEXT_RECALL_PROMPT.format(
+        sentence=sentence,
+        context=context)
 
 def build_context_precision_prompt(context_sentence, question, ground_truth):
     return CONTEXT_PRECISION_PROMPT.format(
@@ -47,118 +48,22 @@ def build_context_precision_prompt(context_sentence, question, ground_truth):
         ground_truth=ground_truth
     )
 
-def load_selene():
-    quantization_config = BitsAndBytesConfig(
-        load_in_4bit=True,
-        bnb_4bit_compute_dtype=torch.float16,
-        bnb_4bit_quant_type="nf4",
-        bnb_4bit_use_double_quant=True,
-    )
-
-    selene_model = AutoModelForCausalLM.from_pretrained(
-        "AtlaAI/Selene-1-Mini-Llama-3.1-8B",
-        device_map="auto",
-        cache_dir=cache_dir,
-        #quantization_config=quantization_config, # remove to load FP16 model
-    )
-    selene_tokenizer = AutoTokenizer.from_pretrained(
-        "AtlaAI/Selene-1-Mini-Llama-3.1-8B",
-        cache_dir=cache_dir,
-    )
-    return selene_model, selene_tokenizer
-
-def evaluate(prompt, model, tokenizer, device='cpu', temperature=0.01, max_new_tokens=512):
-    try:
-        # Format the prompt into messages
-        messages = [{"role": "user", "content": prompt}]
-
-        # Apply chat template
-        text = tokenizer.apply_chat_template(messages, tokenize=False, add_generation_prompt=True)
-
-        # Prepare model inputs
-        model_inputs = tokenizer([text], return_tensors="pt").to(device)
-
-        # Apply attention mask
-        attention_mask = model_inputs.attention_mask
-
-        # Generate response
-        generated_ids = model.generate(
-            model_inputs.input_ids,
-            attention_mask=attention_mask,
-            temperature=temperature,
-            max_new_tokens=max_new_tokens,
-            do_sample=True,
-            pad_token_id=tokenizer.eos_token_id
-        )
-
-        # Extract the newly generated tokens
-        generated_ids = [
-            output_ids[len(input_ids):]
-            for input_ids, output_ids in zip(model_inputs.input_ids, generated_ids)
-        ]
-
-        # Decode the response
-        response = tokenizer.batch_decode(generated_ids, skip_special_tokens=True)[0]
-
-        return response
-
-    except Exception as e:
-        print(f"Error in evaluate function: {e}")
-        return None
-
-def parse_atla_response(response):
-    """
-    Parse ATLA model response to extract reasoning and score.
-
-    Args:
-        response (str): Raw response from ATLA model
-
-    Returns:
-        tuple: (critique, score) where critique is a string and score is an integer
-    """
-    try:
-        # Split into lines and clean up
-        lines = [line.strip() for line in response.split('\n') if line.strip()]
-
-        # Extract critique (everything between **Reasoning:** and **Result:**)
-        critique = None
-        score = None
-
-        for i, line in enumerate(lines):
-            if line.startswith("**Reasoning:**"):
-                critique = lines[i].replace("**Reasoning:**", "").strip()
-            elif line.startswith("**Result:**"):
-                score = lines[i].replace("**Result:**", "").strip()
-
-        # Remove style tag if present
-        if critique and "<userStyle>" in critique:
-            critique = critique.split("<userStyle>")[0].strip()
-
-        return critique, score
-
-    except Exception as e:
-        print(f"Error parsing ATLA response: {e}")
-        return None, None
-
-def compute_context_recall(contexts, ground_truth, model, tokenizer, device):
+def compute_context_recall(judge, contexts, ground_truth):
     gt_sentences = split_sentences(ground_truth)
     if not gt_sentences:
         return 0.0
     relevant_count = 0
     for sent in gt_sentences:
-        is_supported = False
         for ctx in contexts:
             prompt = build_context_recall_prompt(sent, ctx)
-            result = evaluate(prompt, model, tokenizer, device=device)
+            print(prompt)
+            result = judge.evaluate(prompt)
             if "yes" in result.lower():
-                is_supported = True
+                relevant_count += 1
                 break  # One supporting context is enough
-        if is_supported:
-            relevant_count += 1
-
     return relevant_count / len(gt_sentences)
 
-def compute_context_recall_per_context(contexts, ground_truth, model, tokenizer, device):
+def compute_context_recall_per_context(judge, contexts, ground_truth):
     gt_sentences = split_sentences(ground_truth)
     if not gt_sentences:
         return {ctx: 0.0 for ctx in contexts}
@@ -168,13 +73,13 @@ def compute_context_recall_per_context(contexts, ground_truth, model, tokenizer,
         supported_count = 0
         for sent in gt_sentences:
             prompt = build_context_recall_prompt(sent, ctx)
-            result = evaluate(prompt, model, tokenizer, device=device)
+            result = judge.evaluate(prompt)
             if "yes" in result.lower():
                 supported_count += 1
         context_scores[ctx] = supported_count / len(gt_sentences)
     return context_scores
 
-def compute_context_precision(contexts, question, ground_truth, model, tokenizer, device):
+def compute_context_precision(judge, contexts, question, ground_truth):
     all_sentences = []
     for ctx in contexts:
         all_sentences.extend(split_sentences(ctx))
@@ -183,7 +88,7 @@ def compute_context_precision(contexts, question, ground_truth, model, tokenizer
     relevant_count = 0
     for sent in all_sentences:
         prompt = build_context_precision_prompt(sent, question, ground_truth)
-        result = evaluate(prompt, model, tokenizer, device=device)
+        result = judge.evaluate(prompt)
         #print(f"Evaluating context sentence: {sent}\nResult: {result}\n")
         if "yes" in result.lower():
             relevant_count += 1
@@ -191,32 +96,38 @@ def compute_context_precision(contexts, question, ground_truth, model, tokenizer
     return relevant_count / len(all_sentences)
 
 if __name__ == "__main__":
+    parser = argparse.ArgumentParser(description="Evaluate with LLM-as-Judge Retrieval Results")
+    parser.add_argument('--results', type=str, default=None, help='Path to results')
+    args = parser.parse_args()
     device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
     print(f"Using device: {device}")
-    selene_model, selene_tokenizer = load_selene()
-
+    judge_llm = Selene(cache_dir=cache_dir, device=device)
+    with open(args.results) as f:
+        eval_dataset = json.load(f)
+    with open("/home/compartido/pabloF/nos-rag-eval/datasets/Revised_Dataset/preguntas_117_Revisado.json") as f:
+        questions = json.load(f)
     # Select 5 random examples
+    eval_dataset = eval_dataset[45:50]
     sample_size = 5
-    random_examples = random.sample(evaluation_data, sample_size)
-    for example in random_examples:
+    for i, example in enumerate(eval_dataset):
         user_input = example['user_input']
-        assistant_response = example['response']
-        reference_response = example['reference']
-        retrieved_contexts = example['retrieved_contexts']
+        #assistant_response = example['response']
+        reference_response = questions[i]['answer'][0]
+        retrieved_contexts = [ context_json['context'] for context_json in example['retrieved_contexts']]
         print(f"--------------Evaluating question: {user_input}-----------------\n")
         #print(f"Assistant Response: {assistant_response}\n")
-        print(f"Reference Response: {reference_response}\n")
+        #print(f"Reference Response: {reference_response}\n")
 
 
         # Evaluate context recall and precision
-        # recall = compute_context_recall(retrieved_contexts, reference_response, selene_model, selene_tokenizer, device)
-        # separated_recall = compute_context_recall_per_context(retrieved_contexts, reference_response, selene_model, selene_tokenizer, device)
-        precision = compute_context_precision(retrieved_contexts, user_input, reference_response, selene_model, selene_tokenizer, device)
+        recall = compute_context_recall(judge_llm, retrieved_contexts, reference_response)
+        # separated_recall = compute_context_recall_per_context(judge_llm, retrieved_contexts, reference_response)
+        #precision = compute_context_precision(judge_llm, retrieved_contexts, user_input, reference_response)
         # i=0
         # for _, score in separated_recall.items():
         #     print(f"Context {i}, Recall Score: {score:.2f}\n")
         #     i+=1
         # print(f"Total Context Recall: {recall:.2f}")
-
-        print(f"Context Precision: {precision:.2f}\n")
+        print(f"Context Recall: {recall:.2f}\n")
+        #print(f"Context Precision: {precision:.2f}\n")
 
