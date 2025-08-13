@@ -109,7 +109,7 @@ if __name__ == "__main__":
     # Load dataset
     # with open('/home/compartido/pabloF/nos-rag-eval/results/retrieved_dataset_all-minilm-l6-v2_chunked.json', 'r', encoding='utf-8') as f:
     #     dataset = json.load(f)
-    results_dir = "/home/compartido/pabloF/nos-rag-eval/results"
+    results_dir = "/home/compartido/pabloF/nos-rag-eval"
     json_files = glob.glob(f"{results_dir}/retrieved_dataset_*.json")
     out_file = f"all_entity_recall_results.json"
     # Initialize or load previous results if file exists

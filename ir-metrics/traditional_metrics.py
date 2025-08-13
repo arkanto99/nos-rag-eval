@@ -18,7 +18,7 @@ def compute_mrr(expected_ids, retrieved_ids):
 
 # ...existing code...
 
-def compute_precision(expected_ids: List[str], retrieved_ids: List[str], k: int = None) -> float:
+def compute_precision(expected_ids: List[str], retrieved_ids: List[str], k: int = None, deduplicate: bool = False) -> float:
     """Compute precision metric at k (optional).
     
     Args:
@@ -31,14 +31,15 @@ def compute_precision(expected_ids: List[str], retrieved_ids: List[str], k: int 
     """
     if not retrieved_ids or not expected_ids:
         return 0.0
-        
+    if deduplicate:
+        retrieved_ids = list(dict.fromkeys(retrieved_ids))  # preserves order, removes duplicates
     if k is not None:
         retrieved_ids = retrieved_ids[:k]
         
     relevant_retrieved = sum(1 for id in retrieved_ids if id in expected_ids)
     return relevant_retrieved / len(retrieved_ids)
 
-def compute_recall(expected_ids: List[str], retrieved_ids: List[str], k: int = None) -> float:
+def compute_recall(expected_ids: List[str], retrieved_ids: List[str], k: int = None, deduplicate: bool = False) -> float:
     """Compute recall metric at k (optional).
     
     Args:
@@ -51,7 +52,8 @@ def compute_recall(expected_ids: List[str], retrieved_ids: List[str], k: int = N
     """
     if not retrieved_ids or not expected_ids:
         return 0.0
-        
+    if deduplicate:
+        retrieved_ids = list(dict.fromkeys(retrieved_ids))  # preserves order, removes duplicates
     if k is not None:
         retrieved_ids = retrieved_ids[:k]
         
