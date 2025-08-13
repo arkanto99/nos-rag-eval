@@ -4,7 +4,7 @@ general_config:
 database: 
   chunk_size: 2000
   chunk_overlap: 200
-  elastic_index: praza_qwen
+  elastic_index: no_embedding_paragraph
   elastic_config_file: /home/compartido/pabloF/nos-rag-eval/rag_retriever/configs/config_elastic.yaml
 
 retriever:

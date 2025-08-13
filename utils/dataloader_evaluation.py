@@ -53,3 +53,23 @@ def load_qa_with_metadata(file_path: str):
                         "context": item['context']
                 })      
     return qa_dict
+
+def load_questions_with_metadata(file_path: str) -> List[dict]:
+    """
+    Load questions and metadata from JSON file containing an array of questions.
+    Returns a list of dicts with 'id', 'question', and 'metadata'.
+    """
+    questions = []
+    
+    with open(file_path, 'r', encoding='utf-8') as f:
+        data = json.load(f)
+        for item in data:
+            questions.append({
+                "id": item['id'],
+                "source_id": item['source_id'],
+                "question": item['question'],
+                "context": item['context'],
+                "context_paragraph_indices": item["context_paragraph_indices"]
+            })
+            
+    return questions

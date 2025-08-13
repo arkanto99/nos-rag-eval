@@ -9,10 +9,10 @@ class GeneralConfig:
 
 @dataclass
 class DatabaseConfig:
-    chunk_size: int
-    chunk_overlap: int
     elastic_index: str
     elastic_config_file: str
+    chunk_size: Optional[int] = None
+    chunk_overlap: Optional[int] = None
 
 @dataclass
 class RetrieverConfig:

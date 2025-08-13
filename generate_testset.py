@@ -6,14 +6,14 @@ import json
 from tqdm import tqdm
 
 from rag_retriever.rag_retriever import RAG
-from utils.dataloader_evaluation import load_qa_with_metadata
+from utils.dataloader_evaluation import load_questions_with_metadata
 
 parser = argparse.ArgumentParser(description="Generate test set with RAG retriever.")
 parser.add_argument('--config', type=str, default=None, help='Path to RAG config file (optional)')
 args = parser.parse_args()
 
 dataset = []
-dataset = load_qa_with_metadata(file_path="/home/compartido/pabloF/nos-rag-eval/datasets/qwen_samples_context_fixed_HumanRevised.json")
+dataset = load_questions_with_metadata(file_path="/home/compartido/pabloF/nos-rag-eval/datasets/Revised_Dataset/preguntas_117_Revisado.json")
 
 # Pass config file if provided
 if args.config:
@@ -53,6 +53,7 @@ try:
                         "id": metadata["id"],
                         "source_id": metadata.get("source_id",f"Praza-{metadata.get('published_on')}"),
                         "title": metadata.get("title", metadata.get("headline")),
+                        "paragraph_position": metadata.get("relative_chunk_id", None),
                     }
                 })
             # Create new result
@@ -61,7 +62,8 @@ try:
                 "user_input": query,
                 "reference_source_id": item['source_id'],
                 "reference_context": item['context'],
-                "answer_reference": item['answer'],
+                "reference_context_paragraphs": item['context_paragraph_indices'],
+                #"answer_reference": item['answer'],
                 "retrieved_contexts": retrieved_contexts
             }
             
