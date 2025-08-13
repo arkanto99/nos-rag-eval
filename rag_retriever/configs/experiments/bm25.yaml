@@ -2,8 +2,8 @@ general_config:
   hf_cache_dir: /home/compartido/pabloF/cache
 
 database: 
-  chunk_size: 2000
-  chunk_overlap: 200
+  # chunk_size: 2000
+  # chunk_overlap: 200
   elastic_index: no_embedding_paragraph
   elastic_config_file: /home/compartido/pabloF/nos-rag-eval/rag_retriever/configs/config_elastic.yaml
 
