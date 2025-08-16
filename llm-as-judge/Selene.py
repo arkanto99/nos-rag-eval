@@ -28,9 +28,15 @@ class Selene:
 
             # Apply chat template
             text = self.tokenizer.apply_chat_template(messages, tokenize=False, add_generation_prompt=True)
+            
+            # Get model's max length from tokenizer
+            max_length = self.tokenizer.model_max_length
 
             # Prepare model inputs
-            model_inputs = self.tokenizer([text], return_tensors="pt").to(self.device)
+            model_inputs = self.tokenizer([text], 
+                            truncation=True, 
+                            max_length=max_length,
+                            return_tensors="pt").to(self.device)
 
             # Apply attention mask
             attention_mask = model_inputs.attention_mask
@@ -53,8 +59,10 @@ class Selene:
 
             # Decode the response
             response = self.tokenizer.batch_decode(generated_ids, skip_special_tokens=True)[0]
-
-            return response
+            if response:
+                return response
+            else:
+                return "No response generated"
 
         except Exception as e:
             print(f"Error in evaluate function: {e}")

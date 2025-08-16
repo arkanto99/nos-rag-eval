@@ -22,13 +22,13 @@ Yes: The factual content of the sentence is clearly present in the retrieved con
 No: The factual content of the sentence is not present or cannot be confirmed in the retrieved context.
 """
 
-CONTEXT_PRECISION_PROMPT = """You are tasked with evaluating whether a specific sentence from a retrieved context is relevant to answering a Galician question, based on a binary scoring rubric. Provide comprehensive feedback strictly adhering to the rubric, followed by a binary Yes/No judgment. Avoid generating any additional opening, closing, or explanations.
+CONTEXT_PRECISION_PROMPT = """You are tasked with evaluating whether a specific retrieved context is relevant to answering a Galician question, based on a binary scoring rubric. Provide comprehensive feedback strictly adhering to the rubric, followed by a binary Yes/No judgment. Avoid generating any additional opening, closing, or explanations.
 
-⚠️ Note: The context sentence, question, and ground truth answer are written in Galician. Do not translate or modify the original language. Evaluate as-is.
+⚠️ Note: The context, question, and ground truth answer are written in Galician. Do not translate or modify the original language. Evaluate as-is.
 
 Here are some rules of the evaluation:
-(1) You should prioritize evaluating whether the context sentence clearly helps answer the question. Only respond "Yes" if the sentence is clearly relevant to producing or supporting the ground truth answer.
-(2) If the sentence does not help answer the question or is irrelevant, respond "No".
+(1) You should prioritize evaluating whether the context clearly helps answer the question. Only respond "Yes" if the sentence is clearly relevant to producing or supporting the ground truth answer.
+(2) If the context does not help answer the question or is irrelevant, respond "No".
 
 Your reply should strictly follow this format:
 
@@ -36,8 +36,8 @@ Your reply should strictly follow this format:
 
 Here is the data:
 
-Context Sentence:
-{context_sentence}
+Context:
+{context}
 
 Question:
 {question}
@@ -46,8 +46,8 @@ Ground Truth Answer:
 {ground_truth}
 
 Score Rubrics:
-Yes: The context sentence clearly helps answer the question and supports the ground truth answer.
-No: The context sentence does not help answer the question or is irrelevant to the ground truth answer.
+Yes: The context  clearly helps answer the question and supports the ground truth answer.
+No: The context  does not help answer the question or is irrelevant to the ground truth answer.
 """
 
 __all__ = ['CONTEXT_RECALL_PROMPT', 'CONTEXT_PRECISION_PROMPT']
