@@ -1,38 +1,85 @@
-# Nós Rag Evaluation Tool
-
 ## Overview
-The Nós Rag Evaluation Tool is designed to evaluate retrieval-augmented generation (RAG) systems, focusing on the retrieval and reranking steps. It integrates various components to process user queries, retrieve relevant contexts, and generate responses based on metadata-rich datasets.
-
-## Project Structure
-- **datasets/**: Contains datasets used for evaluation.
-  - `evaluation_dataset_with_metadata.json`: Stores user queries, reference answers, and retrieved contexts.
-  - `qwen_samples_context_fixed.json`: Additional dataset for evaluation.
-- **ir-metrics/**: Implements traditional IR metrics for evaluation.
-  - `context_entity_recall.py`: Calculates recall based on entity extraction.
-  - `test_metrics.py`: Unit tests for IR metrics.
-  - `traditional_metrics.py`: Implements precision, recall, and mean reciprocal rank (MRR).
-- **llm-as-judge/**: Implements evaluation using the Selene model as a judge.
-  - `judge.py`: Defines logic for evaluating Context Precision and Context Recall.
-  - `prompts.py`: Contains prompt templates for the Selene model.
-- **rag_retriever/**: Implements the RAG system, including context retrieval and reranking logic.
-  - `__init__.py`: Initializes the module.
-  - `rag_retriever.py`: Defines the `RAG` class and methods for retrieving and formatting contexts.
-  - **configs/**: Configuration files for retriever and reranker.
-  - **retriever/**: Contains logic for retrieving contexts.
-- **utils/**: Utility functions for loading and processing datasets.
-  - `dataloader_evaluation.py`: Handles dataset loading and preprocessing.
-- **generate_testset.py**: Python script for generating evaluation datasets by processing predefined user queries and retrieving relevant contexts from the Elasticsearch database.
-- **README.md**: Documentation for the project.
+The **Nós RAG Evaluation Tool** provides a framework to evaluate retrieval-augmented generation (RAG) systems, with a particular focus on the retrieval and reranking stages. It integrates multiple components to process queries, retrieve relevant contexts, and generate responses using metadata-rich datasets.
 
 ## Key Features
-- **Retrieval Evaluation**: Focuses on evaluating the retrieval and reranking steps of the RAG system.
-- **Evaluation Metrics**:
-  - **Traditional IR Metrics**: Precision, Recall, and Mean Reciprocal Rank (MRR).
-  - **LLM-as-Judge**: Uses the Selene model to compute Context Precision and Context Recall.
-- **Dataset Generation**: Automates the creation of datasets for evaluation using predefined questions and Elasticsearch queries.
+- **Dataset and Index Management**: Create evaluation datasets and manage Elasticsearch indices.  
+- **Retrieval Evaluation**: Assess retrieval and reranking modules in RAG systems.  
+- **Evaluation Metrics**:  
+  - **Traditional IR Metrics**: Precision, Recall, and Mean Reciprocal Rank (MRR).  
+  - **LLM-as-a-Judge**: Uses the `AtlaAI/Selene-1-Mini-Llama-3.1-8B` model to compute Context Precision and Context Recall.  
+- **Visualization Tools**: Edit and visualize datasets for manual inspection.  
+
+## Project Structure
+- **datasets/**: Contains datasets used for evaluation.  
+  - **News/**: Directory for news datasets.  
+  - **Questions/**: Directory for question datasets.  
+  - **Visualization_Tools/**: Tools for editing and visualizing datasets during manual revision.  
+- **elasticsearch/**: Scripts for creating and managing Elasticsearch indices, including index configuration examples.  
+- **ir-metrics/**: Implements traditional IR metrics for evaluation.  
+- **llm-as-judge/**: Evaluation scripts using an LLM as a judge.  
+- **rag_retriever/**: Implements the RAG system, including context retrieval and reranking logic. Stores experiment configurations.  
+- **results/**: Stores evaluation outputs.  
+- **utils/**: Utility functions for loading and processing datasets.  
+
+Each directory includes scripts and configuration files with examples to facilitate reproducibility.
+
+## System Flow
+
+The following diagram illustrates the main workflow of the Nós RAG Evaluation Tool:
+
+![System Flow](docs/Tool_flow.png)
 
 ## Usage
-1. **Dataset Preparation**: Ensure the datasets are stored in the `datasets/` directory.
-2. **Run Evaluation**: Use `generate_testset.py` to process queries and generate evaluation results.
-   ```bash
-   python generate_testset.py
+
+### Prerequisites
+- Python 3.9+  
+- [Elasticsearch](https://www.elastic.co/elasticsearch/) running locally or remotely.
+- Required Python dependencies (see `requirements.txt`)  
+
+---
+
+### 1. Create Elasticsearch Index
+Make sure Elasticsearch is running, then create the index:  
+```bash
+sh launch_es_index_creation.sh
+```
+
+---
+
+### 2. Configure the Experiment
+Choose the configuration for your experiment, selecting the index, retrieval model, and reranker.  
+Example configurations are available in:  
+```
+rag_retriever/configs/experiments/
+```
+
+---
+
+### 3. Run Retrieval
+Launch the retrieval process with the chosen configuration:  
+```bash
+sh launch_retrieval.sh
+```
+
+---
+
+### 4. Evaluate Results
+Evaluate the retrieved passages using:  
+
+**Traditional IR metrics**  
+```bash
+sh launch_evaluate_ir_traditional.sh
+```
+
+**LLM-as-a-Judge**  
+```bash
+sh launch_llm_judge.sh
+```
+
+---
+
+### 5. Aggregate Metrics
+Summarize all evaluation results into a single report:  
+```bash
+sh launch_aggregate_metrics.sh
+```
