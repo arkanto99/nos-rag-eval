@@ -10,19 +10,31 @@ from utils.dataloader_evaluation import load_questions_with_metadata
 
 parser = argparse.ArgumentParser(description="Generate test set with RAG retriever.")
 parser.add_argument('--config', type=str, default=None, help='Path to RAG config file (optional)')
+parser.add_argument('--run-id', type=str, default=None, help='Optional run identifier (e.g., 1, 2, ...)')
+parser.add_argument('--dataset', type=str, default=None, help='Path to the questions dataset JSON file')
 args = parser.parse_args()
 
 dataset = []
-dataset = load_questions_with_metadata(file_path="/home/compartido/pabloF/nos-rag-eval/datasets/Revised_Dataset/preguntas_117_Revisado.json")
+dataset_path = args.dataset
+if dataset_path and os.path.exists(dataset_path):
+    print(f"Loading questions from {dataset_path}...")
+    dataset = load_questions_with_metadata(file_path=dataset_path)
+else:
+    exit("No valid dataset path provided")
 
 # Pass config file if provided
 if args.config:
     print(f"Using config file saved in {args.config}...")
     rag = RAG(config_file=args.config)
     config_base = os.path.splitext(os.path.basename(args.config))[0]
-    output_file = f'retrieved_dataset_{config_base}.json'
+
+    if args.run_id:
+        output_file = f'results/retrieved_dataset_{config_base}_run{args.run_id}.json'
+    else:
+        output_file = f'results/retrieved_dataset_{config_base}.json'
 else:
     exit("Please provide a config file with --config argument.")
+
 
 # Initialize or load existing results
 if os.path.exists(output_file):
