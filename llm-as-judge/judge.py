@@ -4,7 +4,6 @@ import torch
 import random
 import os
 import sys
-from dotenv import load_dotenv
 import json
 import argparse
 import re
@@ -20,18 +19,6 @@ from prompts import (
     CONTEXT_PRECISION_PROMPT
 )
 
-
-env_path = os.path.join("/home/pablo.fernandez.rodriguez/configs/ragas.env")
-load_dotenv(env_path)
-
-def get_env_variable(var_name):
-    """Retrieve an environment variable or raise an error if not set."""
-    value = os.getenv(var_name)
-    if not value:
-        raise ValueError(f"{var_name} not set in .env file")
-    return value
-
-cache_dir = get_env_variable('CACHE_DIR')
 
 def split_sentences(text): #Naive approach to split sentences
     sentences = re.split(r'(?<=[.!?])\s+', text.strip())
@@ -64,37 +51,6 @@ def compute_context_recall(judge, contexts, ground_truth):
                 break  # One supporting context is enough
     return relevant_count / len(gt_sentences)
 
-# def compute_context_recall_per_context(judge, contexts, ground_truth):
-#     gt_sentences = split_sentences(ground_truth)
-#     if not gt_sentences:
-#         return {ctx: 0.0 for ctx in contexts}
-
-#     context_scores = {}
-#     for ctx in contexts:
-#         supported_count = 0
-#         for sent in gt_sentences:
-#             prompt = build_context_recall_prompt(sent, ctx)
-#             result = judge.evaluate(prompt)
-#             if "yes" in result.lower():
-#                 supported_count += 1
-#         context_scores[ctx] = supported_count / len(gt_sentences)
-#     return context_scores
-
-# def compute_context_precision(judge, contexts, question, ground_truth):
-#     all_sentences = []
-#     for ctx in contexts:
-#         all_sentences.extend(split_sentences(ctx))
-#     if not all_sentences:
-#         return 0.0
-#     relevant_count = 0
-#     for sent in all_sentences:
-#         prompt = build_context_precision_prompt(sent, question, ground_truth)
-#         result = judge.evaluate(prompt)
-#         #print(f"Evaluating context sentence: {sent}\nResult: {result}\n")
-#         if "yes" in result.lower():
-#             relevant_count += 1
-
-#     return relevant_count / len(all_sentences)
 
 def compute_context_precision(judge, contexts, question, ground_truth):
     """
@@ -156,18 +112,24 @@ def evaluate_file(results_path, questions, judge_llm, metric="recall"):
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser(description="Evaluate with LLM-as-Judge Retrieval Results")
+    parser.add_argument('--dataset', type=str, default=None, help='Path to the questions dataset JSON file')
     parser.add_argument('--results', type=str, default=None, help='Path to a single results file')
     parser.add_argument('--folder', type=str, default=None, help='Path to a folder with multiple results files')
     parser.add_argument('--output', type=str, default="context_metric_results.jsonl", help='Output file for folder mode')
     parser.add_argument('--metric', type=str, choices=['recall', 'precision'], default='recall', help='Metric to evaluate: recall or precision')
+    parser.add_argument('--cache_dir', type=str, default=None, help='Cache directory for LLM models')
     args = parser.parse_args()
 
     device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
     print(f"Using device: {device}")
-    judge_llm = Selene(cache_dir=cache_dir, device=device)
+    judge_llm = Selene(cache_dir=args.cache_dir, device=device)
 
-    with open("/home/compartido/pabloF/nos-rag-eval/datasets/Revised_Dataset/preguntas_117_Revisado.json") as f:
-        questions = json.load(f)
+    dataset_path = args.dataset
+    if dataset_path and os.path.exists(dataset_path):
+        with open(dataset_path) as f:
+            questions = json.load(f)
+    else:
+        exit("No valid dataset path provided")
 
     if args.folder:
         output_path = args.output

@@ -34,7 +34,7 @@ The following diagram illustrates the main workflow of the Nós RAG Evaluation T
 ### Prerequisites
 - Python 3.9+  
 - [Elasticsearch](https://www.elastic.co/elasticsearch/) running locally or remotely.
-- Required Python dependencies (see `requirements.txt`)  
+- Install required Python dependencies (see `requirements1.txt` and `requirements2.txt`)  
 
 ---
 

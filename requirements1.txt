@@ -1,0 +1,12 @@
+transformers
+elasticsearch
+bitsandbytes
+evaluate
+FlagEmbedding
+huggingface-hub
+sentence-transformers
+protobuf
+scikit-learn
+sentencepiece
+tokenizers
+tqdm
