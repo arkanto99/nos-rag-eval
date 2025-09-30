@@ -3,9 +3,9 @@
 source /home/compartido/pabloF/load_env.sh
 
 CONFIGS=/home/compartido/pabloF/nos-rag-eval/rag_retriever/configs/experiments
-QUESTIONS=/home/compartido/pabloF/nos-rag-eval/datasets/Questions/nos-rag-dataset_questions.json
+QUESTIONS=/home/compartido/pabloF/nos-rag-eval/datasets/Questions/nos-rag-dataset_questions_en.json
 
-for i in {1..10}; do
+for i in {1..2}; do
     echo "=== Run $i ==="
 
     python3 generate_testset.py --dataset $QUESTIONS --config $CONFIGS/bm25.yaml --run-id $i
